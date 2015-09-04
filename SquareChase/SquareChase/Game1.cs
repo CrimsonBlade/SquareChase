@@ -57,6 +57,7 @@ namespace SquareChase
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
+            squareTexture = Content.Load<Texture2D>(@"square");
         }
 
         /// <summary>
@@ -79,6 +80,17 @@ namespace SquareChase
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
 
+            if (timeRemaining == 0.0f)
+            {
+                currentSquare = new Rectangle(
+                    rand.Next(0, this.Window.ClientBounds.Width-32),
+                    rand.Next(0, this.Window.ClientBounds.Height-32),
+                    32,32
+                    );
+
+                timeRemaining = TIME_PER_SQUARE;
+            }
+
             // TODO: Add your update logic here
 
             base.Update(gameTime);
@@ -90,7 +102,13 @@ namespace SquareChase
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.DarkGoldenrod);
+            GraphicsDevice.Clear(Color.CornflowerBlue);
+
+            spriteBatch.Begin();
+            spriteBatch.Draw(squareTexture, 
+                new Rectangle(0, 0, 100, 100),
+                colors[0]);
+            spriteBatch.End();
 
             // TODO: Add your drawing code here
 
